@@ -36,6 +36,11 @@
           </filters>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.hubspot.maven.plugins</groupId>
+        <artifactId>prettier-maven-plugin</artifactId>
+        <version>0.8</version>
+      </plugin>
     </plugins>
   </build>
   <properties>
