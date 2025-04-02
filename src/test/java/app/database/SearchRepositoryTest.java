@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import app.database.utils.DbUtils;
+import app.database.utils.TestConnectionProvider;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -20,17 +22,24 @@ import java.sql.Statement;
  */
 public class SearchRepositoryTest {
 
-    @Test
-    void test() throws Exception{
+    Connection conn;
 
-        Class.forName("org.h2.Driver");
+    @BeforeAll
+    static void setup()  {
+
+        TestConnectionProvider testConnectionProvider = new TestConnectionProvider();
         try {
-            Connection conn = DriverManager.getConnection("jdbc:h2:~/test");
+            Connection conn = testConnectionProvider.getDatabaseConnection();
             DbUtils.createTables(conn);
-            assertEquals(1,1);
+            DbUtils.initializeData(testConnectionProvider);
 
         } catch(Exception e){
-            fail("Error initializing database");
+            fail("Error initializing database:"+e.getMessage());
         }
+    }
+
+    @Test
+    public void simpleTest(){
+        assertEquals(1,1);
     }
 }

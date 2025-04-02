@@ -8,13 +8,19 @@ Data will be stored in PostgreSQL using Supabase.
 
 ### Running locally in Linux
 
-- Compile the API using `mvn clean package`
+- Compile the API using `mvn clean package`. 
 - Make sure the database password is set in your `.bashrc` file
 - Run using `java -jar target/app.jar`
 
 The API will be available at http://localhost:7070/
 
+To compile without running unit tests, run `mvn clean package -DskipTests`
 
+### Running database integration tests
+
+- Download and run a Postgres Docker container with `./startTestDatabase.sh`
+- Run tests in the app.database folder.
+- 
 ### Code formatter
 
 - Run `mvn prettier:write`.

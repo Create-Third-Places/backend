@@ -1,4 +1,7 @@
-create table locations (
+drop SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+create table if not exists locations (
   id serial not null,
   city character varying not null,
   state character varying null,
@@ -8,7 +11,7 @@ create table locations (
   constraint unique_locations unique (city, state, street_address)
 );
 
-create table groups (
+create table if not exists groups (
   id serial not null,
   name character varying not null,
   url character varying not null,
@@ -17,7 +20,7 @@ create table groups (
   constraint unique_groups unique (url)
 );
 
-create table location_group_map (
+create table if not exists location_group_map (
   location_id integer null,
   group_id integer null,
   constraint unique_location_group_map unique (location_id, group_id),
@@ -25,7 +28,7 @@ create table location_group_map (
   constraint location_group_map_location_id_fkey foreign KEY (location_id) references locations (id)
 );
 
-create table game_stores (
+create table if not exists game_stores (
   id serial not null,
   location_id integer null,
   name character varying not null,
@@ -34,7 +37,7 @@ create table game_stores (
   constraint game_stores_location_id_fkey foreign KEY (location_id) references locations (id)
 );
 
-create table game_restaurants (
+create table if not exists game_restaurants (
   id serial not null,
   location_id integer not null,
   name character varying not null,
@@ -45,7 +48,7 @@ create table game_restaurants (
 );
 
 
-create table events (
+create table if not exists events (
   id serial not null,
   location_id integer null,
   description character varying null,
@@ -57,9 +60,16 @@ create table events (
   constraint events_location_id_fkey foreign KEY (location_id) references locations (id)
 );
 
-create type dayOfWeek AS enum ('Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday');
 
-create table event_time (
+
+DO $$ BEGIN
+    create type dayOfWeek AS enum ('sunday', 'monday', 'tuesday', 'wednesday','thursday','friday', 'saturday');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+
+create table if not exists event_time (
   id serial not null,
   event_id integer null,
   start_time timestamp with time zone null,
@@ -69,19 +79,29 @@ create table event_time (
   constraint event_time_event_id_fkey foreign KEY (event_id) references events (id)
 );
 
-create table event_tag_map (
+
+DO $$ BEGIN
+    create type event_tag as enum (
+        'boardgame'
+    );
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+create table if not exists event_tag_map (
   id serial not null,
   event_id integer null,
-  tag public.event_tag null,
+  tag event_tag null,
   constraint event_tag_map_pkey primary key (id),
   constraint unique_event_tag_map unique (event_id, tag),
   constraint event_tag_map_event_id_fkey foreign KEY (event_id) references locations (id)
 );
 
-create table event_group_map (
+create table if not exists event_group_map (
   group_id integer null,
   event_id integer null,
   constraint unique_event_group_map unique (group_id, event_id),
   constraint event_group_map_event_id_fkey foreign KEY (event_id) references events (id),
   constraint event_group_map_group_id_fkey foreign KEY (group_id) references groups (id)
-) TABLESPACE pg_default;
+);
+

@@ -49,4 +49,14 @@ public class Group {
   public Event[] getEvents() {
     return events;
   }
+
+  public String toString(){
+    return "Events:"+events+"\n" +
+            "id:" + id  + "\n" +
+            "link:" + link  + "\n" +
+            "locations:" + locations  + "\n" +
+            "summary:" + summary  + "\n" +
+            "title:" + title  + "\n";
+
+  }
 }

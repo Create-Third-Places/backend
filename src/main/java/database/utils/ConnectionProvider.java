@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import org.apache.logging.log4j.Logger;
 import utils.LogUtils;
 
-public class RepositoryUtils {
+public class ConnectionProvider {
   private static Logger logger = LogUtils.getLogger();
 
-  public static Connection getDatabaseConnection() throws Exception {
+  public Connection getDatabaseConnection() throws Exception {
     try {
       Class.forName("org.postgresql.Driver");
     } catch (ClassNotFoundException e) {
