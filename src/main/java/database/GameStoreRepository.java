@@ -29,7 +29,7 @@ public class GameStoreRepository {
           "INSERT INTO game_stores (url, name, location_id) VALUES(?, ?, ?)";
         PreparedStatement insert = conn.prepareStatement(query);
         insert.clearBatch();
-        insert.setString(1, gameStore.getLink());
+        insert.setString(1, gameStore.getUrl());
         insert.setString(2, gameStore.getName());
         insert.setInt(3, location_id);
         insert.executeUpdate();
@@ -41,7 +41,7 @@ public class GameStoreRepository {
     throws Exception {
     String query = "SELECT * from game_stores where url = ?";
     PreparedStatement select = conn.prepareStatement(query);
-    select.setString(1, gameStore.getLink());
+    select.setString(1, gameStore.getUrl());
 
     ResultSet rs = select.executeQuery();
     return rs.next();

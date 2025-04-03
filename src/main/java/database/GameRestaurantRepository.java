@@ -34,7 +34,7 @@ public class GameRestaurantRepository {
           "INSERT INTO game_restaurants (url, name, location_id) VALUES(?, ?, ?)";
         PreparedStatement insert = conn.prepareStatement(query);
         insert.clearBatch();
-        insert.setString(1, gameRestaurant.getLink());
+        insert.setString(1, gameRestaurant.getUrl());
         insert.setString(2, gameRestaurant.getName());
         insert.setInt(3, location_id);
         insert.executeUpdate();
@@ -52,7 +52,7 @@ public class GameRestaurantRepository {
       "SELECT * from game_restaurants where name = ? and url=? and location_id=?";
     PreparedStatement select = conn.prepareStatement(query);
     select.setString(1, gameRestaurant.getName());
-    select.setString(2, gameRestaurant.getLink());
+    select.setString(2, gameRestaurant.getUrl());
     select.setInt(3, locationId);
 
     ResultSet rs = select.executeQuery();

@@ -26,7 +26,6 @@ public class Group {
     this.url = url;
   }
 
-
   public void setLocations(String locations) {
     this.locations = locations;
   }
@@ -55,19 +54,42 @@ public class Group {
     return events;
   }
 
-  public String toString(){
-    return "Events:"+events+"\n" +
-            "id:" + id  + "\n" +
-            "url:" + url  + "\n" +
-            "locations:" + locations  + "\n" +
-            "summary:" + summary  + "\n" +
-            "name:" + name  + "\n";
-
+  public String toString() {
+    return (
+      "Events:" +
+      events +
+      "\n" +
+      "id:" +
+      id +
+      "\n" +
+      "url:" +
+      url +
+      "\n" +
+      "locations:" +
+      locations +
+      "\n" +
+      "summary:" +
+      summary +
+      "\n" +
+      "name:" +
+      name +
+      "\n"
+    );
   }
 
-  public void addEvent(Event event){
-    Event[] updated = new Event[events.length +1];
-    System.arraycopy(events,0, updated,0,events.length);
+  public int countEvents() {
+    if (events == null) {
+      return 0;
+    }
+    return events.length;
+  }
+  public void addEvent(Event event) {
+    if(events == null) {
+      events = new Event[]{event};
+      return;
+    }
+    Event[] updated = new Event[events.length + 1];
+    System.arraycopy(events, 0, updated, 0, events.length);
     updated[events.length] = event;
     events = updated;
   }
