@@ -3,10 +3,10 @@ package app.data;
 public class Group {
   public Event[] events;
   public int id;
-  public String link;
+  public String url;
   public String locations;
   public String summary;
-  public String title;
+  public String name;
 
   public Group() {}
 
@@ -18,8 +18,12 @@ public class Group {
     this.id = id;
   }
 
-  public String getLink() {
-    return link;
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 
   public void setLocations(String locations) {
@@ -34,12 +38,12 @@ public class Group {
     this.summary = summary;
   }
 
-  public String getTitle() {
-    return title;
+  public String getName() {
+    return name;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public void setEvents(Event[] events) {
@@ -48,5 +52,45 @@ public class Group {
 
   public Event[] getEvents() {
     return events;
+  }
+
+  public String toString() {
+    return (
+      "Events:" +
+      events +
+      "\n" +
+      "id:" +
+      id +
+      "\n" +
+      "url:" +
+      url +
+      "\n" +
+      "locations:" +
+      locations +
+      "\n" +
+      "summary:" +
+      summary +
+      "\n" +
+      "name:" +
+      name +
+      "\n"
+    );
+  }
+
+  public int countEvents() {
+    if (events == null) {
+      return 0;
+    }
+    return events.length;
+  }
+  public void addEvent(Event event) {
+    if(events == null) {
+      events = new Event[]{event};
+      return;
+    }
+    Event[] updated = new Event[events.length + 1];
+    System.arraycopy(events, 0, updated, 0, events.length);
+    updated[events.length] = event;
+    events = updated;
   }
 }

@@ -5,7 +5,7 @@ public class Event {
   private String day;
   private String location;
   private String summary;
-  private String title;
+  private String name;
 
   public Event() {}
 
@@ -41,11 +41,11 @@ public class Event {
     this.summary = summary;
   }
 
-  public String getTitle() {
-    return title;
+  public String getName() {
+    return name;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setName(String name) {
+    this.name = name;
   }
 }

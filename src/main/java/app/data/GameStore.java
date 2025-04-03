@@ -2,7 +2,7 @@ package app.data;
 
 public class GameStore {
   private Integer id;
-  private String link;
+  private String url;
   private String location;
   private String name;
 
@@ -16,12 +16,12 @@ public class GameStore {
     this.id = id;
   }
 
-  public String getLink() {
-    return link;
+  public String getUrl() {
+    return url;
   }
 
-  public void setLink(String link) {
-    this.link = link;
+  public void setUrl(String url) {
+    this.url = url;
   }
 
   public String getLocation() {

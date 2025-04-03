@@ -20,11 +20,11 @@ public class ConventionsRepository {
     EventRepository eventRepository = new EventRepository();
     EventTimeRepository eventTimeRepository = new EventTimeRepository();
     for (Convention convention : conventions) {
-      logger.debug(convention.getTitle());
+      logger.debug(convention.getName());
 
       int eventId = eventRepository.getEvent(
-        convention.getTitle(),
-        convention.getLink(),
+        convention.getName(),
+        convention.getUrl(),
         conn
       );
       if (eventId == -1) {
@@ -32,8 +32,8 @@ public class ConventionsRepository {
           "INSERT INTO events (url, name, is_convention) VALUES(?, ?, true) returning id";
         PreparedStatement insert = conn.prepareStatement(query);
         insert.clearBatch();
-        insert.setString(1, convention.getLink());
-        insert.setString(2, convention.getTitle());
+        insert.setString(1, convention.getUrl());
+        insert.setString(2, convention.getName());
         ResultSet rs = insert.executeQuery();
         rs.next();
         convention.setId(rs.getInt(1));

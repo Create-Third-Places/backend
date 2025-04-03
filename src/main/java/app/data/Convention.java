@@ -3,8 +3,8 @@ package app.data;
 public class Convention {
   String[] days;
   Integer id;
-  String link;
-  String title;
+  String url;
+  String name;
 
   public Convention() {}
 
@@ -24,19 +24,19 @@ public class Convention {
     this.id = id;
   }
 
-  public String getLink() {
-    return link;
+  public String getUrl() {
+    return url;
   }
 
-  public void setLink(String link) {
-    this.link = link;
+  public void setUrl(String link) {
+    this.url = link;
   }
 
-  public String getTitle() {
-    return title;
+  public String getName() {
+    return name;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setName(String name) {
+    this.name = name;
   }
 }

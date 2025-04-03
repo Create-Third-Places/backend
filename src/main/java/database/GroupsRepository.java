@@ -4,6 +4,7 @@ import app.data.Group;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,15 +15,17 @@ public class GroupsRepository {
     LocationsRepository locationsRepository = new LocationsRepository();
     Set<String> urlsInDb = getGroupsInDatabase(groups, conn);
     for (Group group : groups) {
-      if (!urlsInDb.contains(group.link)) {
-        urlsInDb.add(group.link);
+      if (!urlsInDb.contains(group.url)) {
+        urlsInDb.add(group.url);
 
         String query =
-          "INSERT INTO groups (name, url, summary) VALUES(?, ?, ?) returning id";
+          "INSERT INTO groups (name, url, summary) VALUES(?,?,?) returning id";
+
         PreparedStatement insert = conn.prepareStatement(query);
-        insert.setString(1, group.title);
-        insert.setString(2, group.link);
+        insert.setString(1, group.name);
+        insert.setString(2, group.url);
         insert.setString(3, group.summary);
+
         ResultSet rs = insert.executeQuery();
         if (rs.next()) {
           int groupId = rs.getInt(1);
@@ -68,7 +71,7 @@ public class GroupsRepository {
   public int getGroupId(Group group, Connection conn) throws Exception {
     String query = "SELECT * from groups where url = ?";
     PreparedStatement select = conn.prepareStatement(query);
-    select.setString(1, group.link);
+    select.setString(1, group.url);
 
     ResultSet rs = select.executeQuery();
     if (!rs.next()) {

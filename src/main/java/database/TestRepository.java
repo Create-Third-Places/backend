@@ -1,12 +1,13 @@
 package database;
 
-import database.utils.RepositoryUtils;
+import database.utils.ConnectionProvider;
 import java.sql.*;
 
 public class TestRepository {
 
   public int countLocations() throws Exception {
-    Connection connection = RepositoryUtils.getDatabaseConnection();
+    ConnectionProvider connectionProvider = new ConnectionProvider();
+    Connection connection = connectionProvider.getDatabaseConnection();
     Statement st;
     int count = 0;
     try {

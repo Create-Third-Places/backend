@@ -2,7 +2,7 @@ package service;
 
 import app.data.Data;
 import database.*;
-import database.utils.RepositoryUtils;
+import database.utils.ConnectionProvider;
 import java.sql.Connection;
 import org.apache.logging.log4j.Logger;
 import utils.LogUtils;
@@ -14,11 +14,13 @@ public class BulkUpdateService {
     logger = LogUtils.getLogger();
   }
 
-  public void bulkUpdate(Data data) throws Exception {
-    Connection conn = RepositoryUtils.getDatabaseConnection();
+  public void bulkUpdate(Data data, ConnectionProvider connectionProvider)
+    throws Exception {
+    Connection conn = connectionProvider.getDatabaseConnection();
     conn.setAutoCommit(false);
 
     try {
+      logger.info("Number of groups to insert:"+data.getGroups().length);
       GroupsRepository groupsRepository = new GroupsRepository();
       groupsRepository.insertGroups(data.getGroups(), conn);
     } catch (Exception e) {

@@ -1,6 +1,7 @@
 package app;
 
 import app.data.InputRequest;
+import database.utils.ConnectionProvider;
 import io.javalin.Javalin;
 import service.AuthService;
 import service.BulkUpdateService;
@@ -43,8 +44,9 @@ public class Main {
         authService.validate(data);
         ctx.result("Test");
 
+        var connectionProvider = new ConnectionProvider();
         var bulkUpdateService = new BulkUpdateService();
-        bulkUpdateService.bulkUpdate(data.getData());
+        bulkUpdateService.bulkUpdate(data.getData(), connectionProvider);
       }
     );
   }

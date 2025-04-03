@@ -17,15 +17,15 @@ public class EventRepository {
     for (Group group : groups) {
       int groupId = groupsRepository.getGroupId(group, conn);
       for (Event event : group.events) {
-        int eventId = getEvent(event.getTitle(), group.link, conn);
+        int eventId = getEvent(event.getName(), group.url, conn);
         if (eventId == -1) {
           if (!Validator.isValidAddress(event.getLocation())) {
             String query =
               "INSERT INTO events(description, name, url) values(?,?,?) returning id";
             PreparedStatement insert = conn.prepareStatement(query);
             insert.setString(1, event.getSummary());
-            insert.setString(2, event.getTitle());
-            insert.setString(3, group.link);
+            insert.setString(2, event.getName());
+            insert.setString(3, group.url);
 
             ResultSet rs = insert.executeQuery();
             rs.next();
@@ -41,8 +41,8 @@ public class EventRepository {
             PreparedStatement insert = conn.prepareStatement(query);
             insert.setInt(1, location_id);
             insert.setString(2, event.getSummary());
-            insert.setString(3, event.getTitle());
-            insert.setString(4, group.link);
+            insert.setString(3, event.getName());
+            insert.setString(4, group.url);
 
             ResultSet rs = insert.executeQuery();
             rs.next();
