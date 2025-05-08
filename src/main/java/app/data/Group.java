@@ -55,6 +55,9 @@ public class Group {
   }
 
   public Event[] getEvents() {
+    if(events == null){
+      return new Event[0];
+    }
     return events;
   }
 

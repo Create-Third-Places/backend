@@ -21,11 +21,11 @@ public class GroupService {
 
     GroupSearchResult groupSearchResult = searchService.getGroups(params, connectionProvider);
 
+    System.out.println(groupSearchResult.countGroups());
     if(groupSearchResult.countGroups() > 1 ){
       throw new Exception("Multiple groups were found");
     }
 
-    System.out.println(params);
     Group group = groupSearchResult.getFirstGroup();
     if(group == null){
       throw new SearchParameterException("No group found");

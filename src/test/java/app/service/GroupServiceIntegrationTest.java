@@ -164,7 +164,6 @@ public class GroupServiceIntegrationTest {
     );
 
     Set<GroupPageEventData> eventData = result.getEventData();
-    int eventCount = 0;
 
     LocalDate prevDate = null;
     for(GroupPageEventData data: eventData) {
@@ -172,15 +171,36 @@ public class GroupServiceIntegrationTest {
       if(prevDate != null){
         assertTrue(data.getEventDate().isAfter(prevDate));
       }
-      eventCount++;
-
       prevDate = data.getEventDate();
     }
-
-    assertTrue(eventData.size()<=16 || eventData.size()<=20);
-
+    assertTrue(eventData.size()>=16 && eventData.size()<=20);
   }
 
 
 
+  @Test
+  public void validNameAndValidTag_Group_NoEvents() throws Exception{
+    LinkedHashMap<String, String> params = new LinkedHashMap<>();
+    params.put(GroupSearchParams.AREA, "dmv");
+    params.put(GroupSearchParams.NAME, "Alexandria_Board_Gaming");
+
+    GroupPageData result = groupService.getGroupPageData(
+        params,
+        testConnectionProvider
+    );
+
+    Set<GroupPageEventData> eventData = result.getEventData();
+
+    LocalDate prevDate = null;
+    for(GroupPageEventData data: eventData) {
+
+      System.out.println(data.getName());
+      if(prevDate != null){
+        assertTrue(data.getEventDate().isAfter(prevDate));
+      }
+      prevDate = data.getEventDate();
+    }
+
+    assertEquals(eventData.size(), 0);
+  }
 }
