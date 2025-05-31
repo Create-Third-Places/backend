@@ -18,6 +18,10 @@ public class User {
     return id;
   }
 
+  public String getEmail(){
+    return email;
+  }
+
   public String getAdminLevel(){
     return userType.name();
   }

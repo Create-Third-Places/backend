@@ -1,19 +1,19 @@
 package service.read;
 
+import app.data.auth.User;
 import app.result.GroupSearchResult;
 import database.search.GroupSearchParams;
 import database.search.SearchRepository;
 import database.utils.ConnectionProvider;
-import service.ContentItemService;
 
 import java.sql.Connection;
 import java.util.LinkedHashMap;
 
-public class SearchService extends ContentItemService {
+public class SearchService {
 
 
-  //TODO: Add group edit permissions based on email
   public GroupSearchResult getGroups(
+    User currentUser,
     LinkedHashMap<String, String> searchParams,
     ConnectionProvider connectionProvider
   ) throws Exception
@@ -22,7 +22,13 @@ public class SearchService extends ContentItemService {
     Connection conn = connectionProvider.getDatabaseConnection();
 
     SearchRepository searchRepository = new SearchRepository();
-    return searchRepository.getGroups(params, conn);
+
+
+    GroupSearchResult groups = searchRepository.getGroups(params, conn);
+
+    //TODO: Check for group edit permissions
+    groups
+    return groups;
   }
 
 

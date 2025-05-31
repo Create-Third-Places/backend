@@ -102,5 +102,8 @@ public class GroupSearchResult {
             Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
   }
 
+  public void setCanEdit(Group group, boolean canEdit){
+    //TODO: Add logic.
+  }
 
 }
