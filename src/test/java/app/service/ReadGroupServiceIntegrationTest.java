@@ -1,6 +1,6 @@
 package app.service;
 
-import app.data.Group;
+import app.groups.data.Group;
 import app.data.auth.User;
 import app.database.utils.DbUtils;
 import app.database.utils.IntegrationTestConnectionProvider;

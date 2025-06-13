@@ -1,6 +1,7 @@
 package app.request;
 
 import app.data.*;
+import app.groups.data.Group;
 
 public class BulkUpdateRequest {
   private Group[] groups;

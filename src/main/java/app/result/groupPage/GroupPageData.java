@@ -1,14 +1,12 @@
 package app.result.groupPage;
 
 import app.data.Event;
-import app.data.Group;
+import app.groups.data.Group;
 import app.data.auth.PermissionName;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;

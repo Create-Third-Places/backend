@@ -1,7 +1,7 @@
-package app.user;
+package app.users;
 
 import app.data.auth.UserType;
-import app.user.data.RegisterUserRequest;
+import app.users.data.RegisterUserRequest;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import database.utils.ConnectionProvider;
 import io.javalin.Javalin;
@@ -9,20 +9,17 @@ import org.apache.logging.log4j.Logger;
 import service.auth.AuthService;
 import utils.LogUtils;
 
-public class UserApi {
+public class UsersApi {
   public static Logger logger = LogUtils.getLogger();
 
-  public static void createUserEndpoints(Javalin app){
+  public static void createEndpoints(Javalin app){
     app.post(
         "/users/register",
         ctx -> {
 
           try {
-            var connectionProvider = new ConnectionProvider();
-            var authService = AuthService.createSupabaseAuthService(connectionProvider.getConnectionWithManualCommit());
 
-            var data = ctx.bodyAsClass(RegisterUserRequest.class);
-            var response = authService.registerUser(data, UserType.USER);
+            var response = AuthService.registerUser(ctx);
 
             logger.info("User created successfully");
             ctx.status(200);

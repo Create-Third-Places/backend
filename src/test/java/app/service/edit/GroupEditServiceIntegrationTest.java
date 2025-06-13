@@ -1,6 +1,6 @@
 package app.service.edit;
 
-import app.data.Group;
+import app.groups.data.Group;
 import app.data.auth.User;
 import app.database.utils.DbUtils;
 import app.database.utils.IntegrationTestConnectionProvider;
@@ -15,6 +15,7 @@ import service.update.GroupEditService;
 import service.user.UserService;
 
 import java.sql.Connection;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -117,9 +118,9 @@ public class GroupEditServiceIntegrationTest {
     updated.setId(group.getId());
     groupEditService.editGroup(admin, updated, testConnectionProvider);
 
-    Group updatedFromDb = readGroupService.getGroup(group.getId(), testConnectionProvider);
+    Optional<Group> updatedFromDb = readGroupService.getGroup(group.getId(), testConnectionProvider);
 
-    assertGroupsAreEqual(updatedFromDb, updated);
+    assertGroupsAreEqual(updatedFromDb.orElseThrow(), updated);
   }
 
 
@@ -131,9 +132,8 @@ public class GroupEditServiceIntegrationTest {
     updated.setId(group.getId());
     groupEditService.editGroup(standardUser, updated, testConnectionProvider);
 
-    Group updatedFromDb = readGroupService.getGroup(group.getId(), testConnectionProvider);
-
-    assertGroupsAreEqual(updatedFromDb, updated);
+    Optional<Group> updatedFromDb = readGroupService.getGroup(group.getId(), testConnectionProvider);
+    assertGroupsAreEqual(updatedFromDb.orElseThrow(), updated);
   }
 
   @Test
@@ -179,8 +179,8 @@ public class GroupEditServiceIntegrationTest {
     updated.setId(group.getId());
     groupEditService.editGroup(standardUser2, updated, testConnectionProvider );
 
-    Group updatedFromDb  = readGroupService.getGroup(group.getId(), testConnectionProvider);
-    assertGroupsAreEqual(updated, updatedFromDb);
+    Optional<Group> updatedFromDb  = readGroupService.getGroup(group.getId(), testConnectionProvider);
+    assertGroupsAreEqual(updatedFromDb.orElseThrow(), updated);
   }
 
   @Test
@@ -200,6 +200,30 @@ public class GroupEditServiceIntegrationTest {
         }
     );
     assertTrue(exception.getMessage().contains("does not have permission"));
+  }
 
+  @Test
+  public void testGroupAdminCanDeleteGroup() throws Exception {
+
+    Group group = CreateGroupUtils.createGroup(standardUser, testConnectionProvider);
+
+    groupEditService.deleteGroup(standardUser, group.getId(), testConnectionProvider);
+
+    Optional<Group> groupInDb = readGroupService.getGroup(group.getId(),testConnectionProvider);
+    assertTrue(groupInDb.isEmpty());
+  }
+
+  @Test
+  public void testStandardUserCannotDeleteGroup() throws Exception {
+
+    Group group = CreateGroupUtils.createGroup(standardUser, testConnectionProvider);
+
+    Exception exception = assertThrows(
+        Exception.class,
+        ()->{
+          groupEditService.deleteGroup(standardUser2, group.getId(), testConnectionProvider);
+        }
+    );
+    assertTrue(exception.getMessage().contains("does not have permission"));
   }
 }

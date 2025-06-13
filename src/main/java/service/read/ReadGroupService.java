@@ -1,6 +1,6 @@
 package service.read;
 
-import app.data.Group;
+import app.groups.data.Group;
 import app.data.auth.PermissionName;
 import app.data.auth.User;
 import app.result.groupPage.GroupPageData;
@@ -11,6 +11,7 @@ import service.permissions.GroupPermissionService;
 import service.provider.ReadGroupDataProvider;
 
 import java.util.LinkedHashMap;
+import java.util.Optional;
 
 public class ReadGroupService{
 
@@ -25,7 +26,7 @@ public class ReadGroupService{
     this.groupsRepository = dataProvider.getGroupsRepository();
   }
 
-  public Group getGroup(int groupId, ConnectionProvider connectionProvider) throws Exception{
+  public Optional<Group> getGroup(int groupId, ConnectionProvider connectionProvider) throws Exception{
     return this.groupsRepository.getGroup(groupId, connectionProvider.getDatabaseConnection());
   }
   public GroupPageData getGroupPageData(

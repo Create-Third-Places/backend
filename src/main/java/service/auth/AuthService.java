@@ -4,10 +4,11 @@ import app.data.auth.User;
 import app.data.auth.UserType;
 import app.request.BulkUpdateInputRequest;
 import app.result.error.DuplicateUsernameException;
-import app.user.data.RegisterUserRequest;
-import app.user.data.RegisterUserResponse;
+import app.users.data.RegisterUserRequest;
+import app.users.data.RegisterUserResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import database.utils.ConnectionProvider;
 import io.javalin.http.Context;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -163,10 +164,26 @@ public class AuthService {
     return true;
   }
 
-  public static AuthService createSupabaseAuthService(Connection conn){
+  //TODO: Consider moving this function and the one below it outside of AuthService.
+  public static User getUser(Connection conn, Context ctx) throws Exception{
 
     UserService userService = new UserService(UserService.DataProvider.createDataProvider(conn));
     SupabaseAuthProvider supabaseAuthProvider = new SupabaseAuthProvider();
-    return new AuthService(supabaseAuthProvider, userService);
+
+    AuthService authService = new AuthService(supabaseAuthProvider, userService);
+    return authService.getUser(ctx);
   }
+
+  public static RegisterUserResponse registerUser(Context ctx) throws Exception{
+    var connectionProvider = new ConnectionProvider();
+
+    UserService userService = new UserService(UserService.DataProvider.createDataProvider(connectionProvider.getConnectionWithManualCommit()));
+    SupabaseAuthProvider supabaseAuthProvider = new SupabaseAuthProvider();
+
+    AuthService authService = new AuthService(supabaseAuthProvider, userService);
+
+    var data = ctx.bodyAsClass(RegisterUserRequest.class);
+    return authService.registerUser(data, UserType.USER);
+  }
+
 }

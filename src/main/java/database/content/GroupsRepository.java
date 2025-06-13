@@ -1,8 +1,7 @@
 package database.content;
 
-import app.data.Group;
+import app.groups.data.Group;
 import app.data.auth.User;
-import database.utils.ConnectionProvider;
 import org.apache.logging.log4j.Logger;
 import utils.LogUtils;
 
@@ -10,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class GroupsRepository {
@@ -126,7 +126,7 @@ public class GroupsRepository {
     }
   }
 
-  public Group getGroup(int groupId, Connection conn) throws Exception{
+  public Optional<Group> getGroup(int groupId, Connection conn) throws Exception{
     try {
       String query = "SELECT * from groups where id = ?";
       PreparedStatement statement = conn.prepareStatement(query);
@@ -134,7 +134,7 @@ public class GroupsRepository {
 
       ResultSet rs = statement.executeQuery();
       if(!rs.next()) {
-        return null;
+        return Optional.empty();
       }
 
       Group group = new Group();
@@ -142,13 +142,14 @@ public class GroupsRepository {
       group.setName(rs.getString("name"));
       group.setUrl(rs.getString("url"));
       group.setSummary(rs.getString("summary"));
-      return group;
+      return Optional.of(group);
 
     } catch(Exception e){
       logger.error("Error inserting group");
       throw e;
     }
   }
+
   public void updateGroup(Group groupToUpdate, Connection conn) throws Exception{
     try {
       String updateQuery =    """
@@ -172,4 +173,23 @@ public class GroupsRepository {
       throw e;
     }
   }
+
+
+  public void deleteGroup(int groupId, Connection conn) throws Exception{
+    try {
+      String deleteQuery =    """
+             DELETE FROM groups
+             WHERE id = ?
+          """;
+
+      PreparedStatement delete = conn.prepareStatement(deleteQuery);
+      delete.setInt(1, groupId);
+      delete.executeUpdate();
+
+    } catch (Exception e){
+      logger.error("Failed to update group");
+      throw e;
+    }
+  }
+
 }

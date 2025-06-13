@@ -35,6 +35,6 @@ public class GroupPermissionService {
     if(user.isSiteAdmin()){
       return true;
     }
-    return userPermissionsRepository.canEditGroup(user, groupId, connectionProvider.getDatabaseConnection());
+    return userPermissionsRepository.hasGroupEditorRole(user, groupId, connectionProvider.getDatabaseConnection());
   }
 }

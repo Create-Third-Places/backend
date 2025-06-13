@@ -66,8 +66,7 @@ public class UserPermissionsRepository
     return rs.next();
   }
 
-  public boolean canEditGroup(User user, int groupId, Connection conn) throws Exception {
-
+  private ResultSet getGroupEditorRoles(int groupId, Connection conn) throws Exception {
     String query =  """
                       SELECT * from groups
                       FULL JOIN group_admin_data on group_admin_data.group_id = groups.id
@@ -83,12 +82,15 @@ public class UserPermissionsRepository
       logger.error(message);
       throw new GroupNotFoundError(message);
     }
-    System.out.println("Found group with id "+groupId);
-    while(true){
+    return rs;
+  }
 
+  public boolean hasGroupEditorRole(User user, int groupId, Connection conn) throws Exception {
+
+    ResultSet rs = getGroupEditorRoles(groupId, conn);
+    while(true){
       int user_id = rs.getInt("user_id");
       String groupAdminLevel = rs.getString("group_admin_level");
-
       if(user_id == user.getId()) {
         if(groupAdminLevel.equals(GroupAdminType.GROUP_ADMIN.toString()) ||
             groupAdminLevel.equals(GroupAdminType.GROUP_MODERATOR.toString())){
@@ -99,6 +101,21 @@ public class UserPermissionsRepository
         return false;
       }
     }
+  }
 
+  public boolean isGroupAdmin(User user, int groupId, Connection conn) throws Exception {
+    ResultSet rs = getGroupEditorRoles(groupId, conn);
+    while (true) {
+      int user_id = rs.getInt("user_id");
+      String groupAdminLevel = rs.getString("group_admin_level");
+      if (user_id == user.getId()) {
+        if (groupAdminLevel.equals(GroupAdminType.GROUP_ADMIN.toString())) {
+          return true;
+        }
+      }
+      if (!rs.next()) {
+        return false;
+      }
+    }
   }
 }

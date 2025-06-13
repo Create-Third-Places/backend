@@ -1,8 +1,8 @@
-package app.data;
+package app.groups.data;
 
-import app.data.auth.PermissionName;
-
-import java.util.HashMap;
+import app.data.ContentItem;
+import app.data.ContentType;
+import app.data.Event;
 
 public class Group extends ContentItem {
   public Event[] events;

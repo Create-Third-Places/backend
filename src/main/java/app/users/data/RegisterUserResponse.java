@@ -1,4 +1,4 @@
-package app.user.data;
+package app.users.data;
 
 public class RegisterUserResponse {
   String email;

@@ -1,7 +1,7 @@
 package app.result;
 
 import app.data.Event;
-import app.data.Group;
+import app.groups.data.Group;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.*;

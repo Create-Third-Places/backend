@@ -5,8 +5,7 @@ import app.data.auth.UserType;
 import app.database.utils.DbUtils;
 import app.database.utils.IntegrationTestConnectionProvider;
 import app.result.error.DuplicateUsernameException;
-import app.user.data.RegisterUserRequest;
-import app.user.data.RegisterUserResponse;
+import app.users.data.RegisterUserRequest;
 import app.utils.CreateUserUtils;
 import io.javalin.http.Context;
 

@@ -1,6 +1,6 @@
 package app.utils;
 
-import app.data.Group;
+import app.groups.data.Group;
 import app.data.auth.User;
 import database.utils.ConnectionProvider;
 import service.update.GroupEditService;

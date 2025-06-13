@@ -1,14 +1,10 @@
 package service.read;
 
-import app.data.Group;
-import app.data.auth.PermissionName;
-import app.data.auth.User;
+import app.groups.data.Group;
 import app.result.GroupSearchResult;
 import database.search.GroupSearchParams;
 import database.search.SearchRepository;
 import database.utils.ConnectionProvider;
-import service.ContentService;
-import service.permissions.GroupPermissionService;
 
 import java.sql.Connection;
 import java.util.LinkedHashMap;

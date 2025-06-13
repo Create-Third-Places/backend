@@ -2,7 +2,7 @@ package app.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import app.data.Group;
+import app.groups.data.Group;
 import app.database.utils.DbUtils;
 import app.database.utils.IntegrationTestConnectionProvider;
 import app.result.GroupSearchResult;
